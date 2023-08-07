@@ -121,6 +121,7 @@ class VideoAutomationUI(AbstractComponentUI):
             if self.state == Chatstate.ASK_DESCRIPTION:
                 print("Generating video script for: " + message)
                 self.script = self.generate_script(message, self.language.value)
+                print("Script: " + self.script)
                 self.state = Chatstate.ASK_SATISFACTION
                 bot_message = f"📝 Here is your generated script: \n\n--------------\n{self.script}\n\n・Are you satisfied with the script and ready to proceed with creating the video? Please respond with 'YES' or 'NO'. 👍👎"
             elif self.state == Chatstate.ASK_SATISFACTION:

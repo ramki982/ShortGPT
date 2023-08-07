@@ -27,13 +27,18 @@ def getImageQueryPairs(captions,n=15 ,maxTime=2):
 
 
 def getVideoSearchQueriesTimed(captions_timed):
+    print(captions_timed);
     end = captions_timed[-1][0][1]
     chat, system = gpt_utils.load_local_yaml_prompt('prompt_templates/editing_generate_videos.yaml')
     chat = chat.replace("<<TIMED_CAPTIONS>>", f"{captions_timed}")
     out = [[[0,0],""]]
     while out[-1][0][1] != end:
         try:
-            out = json.loads(gpt_utils.gpt3Turbo_completion(chat_prompt=chat, system=system, temp=1).replace("'", '"'))
+            jsonOutput = gpt_utils.gpt3Turbo_completion(chat_prompt=chat, system=system, temp=1).replace("'", '"');
+            print(jsonOutput);
+            print("\n");
+            out = json.loads(jsonOutput)
+            return out
         except Exception as e:
             print(e)
             print("not the right format")
