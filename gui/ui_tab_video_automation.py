@@ -17,9 +17,9 @@ from shortGPT.gpt import gpt_chat_video
 
 
 class Chatstate(Enum):
-    ASK_ORIENTATION = 1
-    ASK_VOICE_MODULE = 2
-    ASK_LANGUAGE = 3
+    # ASK_ORIENTATION = 1
+    # ASK_VOICE_MODULE = 2
+    # ASK_LANGUAGE = 3
     ASK_DESCRIPTION = 4
     GENERATE_SCRIPT = 5
     ASK_SATISFACTION = 6
@@ -30,10 +30,10 @@ class Chatstate(Enum):
 class VideoAutomationUI(AbstractComponentUI):
     def __init__(self, shortGptUI: gr.Blocks):
         self.shortGptUI = shortGptUI
-        self.state = Chatstate.ASK_ORIENTATION
-        self.isVertical = None
-        self.voice_module = None
-        self.language = None
+        self.state = Chatstate.ASK_DESCRIPTION
+        self.isVertical = True
+        self.language = Language.ENGLISH
+        self.voice_module = EdgeTTSVoiceModule(EDGE_TTS_VOICENAME_MAPPING[self.language]['male'])
         self.script = ""
         self.video_html = ""
         self.videoVisible = False
@@ -85,40 +85,40 @@ class VideoAutomationUI(AbstractComponentUI):
             errorVisible = False
             inputVisible = True
             folderVisible = False
-            if self.state == Chatstate.ASK_ORIENTATION:
-                errorMessage = self.is_key_missing()
-                if errorMessage:
-                    bot_message = errorMessage
-                else:
-                    self.isVertical = "vertical" in message.lower() or "short" in message.lower()
-                    self.state = Chatstate.ASK_VOICE_MODULE
-                    bot_message = "Which voice module do you want to use? Please type 'ElevenLabs' for high quality voice or 'EdgeTTS' for free but medium quality voice."
-            elif self.state == Chatstate.ASK_VOICE_MODULE:
-                if "elevenlabs" in message.lower():
-                    eleven_labs_key = ApiKeyManager.get_api_key("ELEVEN LABS")
-                    if not eleven_labs_key:
-                        bot_message = "Your Eleven Labs API key is missing. Please go to the config tab and enter the API key."
-                        return
-                    self.voice_module = ElevenLabsVoiceModule
-                    language_choices = [lang.value for lang in ELEVEN_SUPPORTED_LANGUAGES]
-                elif "edgetts" in message.lower():
-                    self.voice_module = EdgeTTSVoiceModule
-                    language_choices = [lang.value for lang in Language]
-                else:
-                    bot_message = "Invalid voice module. Please type 'ElevenLabs' or 'EdgeTTS'."
-                    return
-                self.state = Chatstate.ASK_LANGUAGE
-                bot_message = f"🌐What language will be used in the video?🌐 Choose from one of these ({', '.join(language_choices)})"
-            elif self.state == Chatstate.ASK_LANGUAGE:
-                self.language = next((lang for lang in Language if lang.value.lower() in message.lower()), None)
-                self.language = self.language if self.language else Language.ENGLISH
-                if self.voice_module == ElevenLabsVoiceModule:
-                    self.voice_module = ElevenLabsVoiceModule(ApiKeyManager.get_api_key('ELEVEN LABS'), "Antoni", checkElevenCredits=True)
-                elif self.voice_module == EdgeTTSVoiceModule:
-                    self.voice_module = EdgeTTSVoiceModule(EDGE_TTS_VOICENAME_MAPPING[self.language]['male'])
-                self.state = Chatstate.ASK_DESCRIPTION
-                bot_message = "Amazing 🔥 ! 📝Can you describe thoroughly the subject of your video?📝 I will next generate you a script based on that description"
-            elif self.state == Chatstate.ASK_DESCRIPTION:
+            # if self.state == Chatstate.ASK_ORIENTATION:
+            #     errorMessage = self.is_key_missing()
+            #     if errorMessage:
+            #         bot_message = errorMessage
+            #     else:
+            #         self.isVertical = "vertical" in message.lower() or "short" in message.lower()
+            #         self.state = Chatstate.ASK_VOICE_MODULE
+            #         bot_message = "Which voice module do you want to use? Please type 'ElevenLabs' for high quality voice or 'EdgeTTS' for free but medium quality voice."
+            # elif self.state == Chatstate.ASK_VOICE_MODULE:
+            #     if "elevenlabs" in message.lower():
+            #         eleven_labs_key = ApiKeyManager.get_api_key("ELEVEN LABS")
+            #         if not eleven_labs_key:
+            #             bot_message = "Your Eleven Labs API key is missing. Please go to the config tab and enter the API key."
+            #             return
+            #         self.voice_module = ElevenLabsVoiceModule
+            #         language_choices = [lang.value for lang in ELEVEN_SUPPORTED_LANGUAGES]
+            #     elif "edgetts" in message.lower():
+            #         self.voice_module = EdgeTTSVoiceModule
+            #         language_choices = [lang.value for lang in Language]
+            #     else:
+            #         bot_message = "Invalid voice module. Please type 'ElevenLabs' or 'EdgeTTS'."
+            #         return
+            #     self.state = Chatstate.ASK_LANGUAGE
+            #     bot_message = f"🌐What language will be used in the video?🌐 Choose from one of these ({', '.join(language_choices)})"
+            # elif self.state == Chatstate.ASK_LANGUAGE:
+                # self.language = next((lang for lang in Language if lang.value.lower() in message.lower()), None)
+                # self.language = self.language if self.language else Language.ENGLISH
+                # if self.voice_module == ElevenLabsVoiceModule:
+                #     self.voice_module = ElevenLabsVoiceModule(ApiKeyManager.get_api_key('ELEVEN LABS'), "Antoni", checkElevenCredits=True)
+                # elif self.voice_module == EdgeTTSVoiceModule:
+                #     self.voice_module = EdgeTTSVoiceModule(EDGE_TTS_VOICENAME_MAPPING[self.language]['male'])
+                #self.state = Chatstate.ASK_DESCRIPTION
+                #bot_message = "Amazing 🔥 ! 📝Can you describe thoroughly the subject of your video?📝 I will next generate you a script based on that description"
+            if self.state == Chatstate.ASK_DESCRIPTION:
                 self.script = self.generate_script(message, self.language.value)
                 self.state = Chatstate.ASK_SATISFACTION
                 bot_message = f"📝 Here is your generated script: \n\n--------------\n{self.script}\n\n・Are you satisfied with the script and ready to proceed with creating the video? Please respond with 'YES' or 'NO'. 👍👎"
@@ -169,18 +169,18 @@ class VideoAutomationUI(AbstractComponentUI):
         return respond
 
     def initialize_conversation(self):
-        self.state = Chatstate.ASK_ORIENTATION
-        self.isVertical = None
-        self.language = None
+        self.state = Chatstate.ASK_DESCRIPTION
+        self.isVertical = True
+        self.language = Language.ENGLISH
         self.script = ""
         self.video_html = ""
         self.videoVisible = False
-        return [[None, "🤖 Welcome to ShortGPT! 🚀 I'm a python framework aiming to simplify and automate your video editing tasks.\nLet's get started! 🎥🎬\n\n Do you want your video to be in landscape or vertical format? (landscape OR vertical)"]]
+        return [[None, "🤖 Welcome to GYANZ.AI! 🚀 I'm a python framework powered by ShortGPT aiming to simplify and automate your video editing tasks.\nLet's get started! 🎥🎬\n\n Amazing 🔥 ! 📝Can you describe thoroughly the subject of your video?📝 I will next generate you a script based on that description"]]
 
     def reset_conversation(self):
-        self.state = Chatstate.ASK_ORIENTATION
-        self.isVertical = None
-        self.language = None
+        self.state = Chatstate.ASK_DESCRIPTION
+        self.isVertical = True
+        self.language = Language.ENGLISH
         self.script = ""
         self.video_html = ""
         self.videoVisible = False
