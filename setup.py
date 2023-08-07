@@ -7,11 +7,11 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = '0.0.1'
+VERSION = '0.1.3'
 DESCRIPTION = 'Automating video and short content creation with AI'
 LONG_DESCRIPTION = 'A powerful tool for automating content creation. It simplifies video creation, footage sourcing, voiceover synthesis, and editing tasks.'
 
-# Setting up
+
 setup(
     name="shortgpt",
     version=VERSION,
@@ -21,22 +21,23 @@ setup(
     long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(),
+    package_data={'': ['*.yaml', '*.json']},    # This will include all yaml files in package
     install_requires=[
         'ffmpeg', 
         'python-dotenv', 
-        'gradio',
         'openai', 
         'tiktoken',
         'tinydb',
         'tinymongo',
         'proglog',
         'yt-dlp',
-        'torch', 
+        'torch',
+        'whisper-timestamped',
         'torchaudio',
+        'pillow==9.0.0',
         'protobuf==3.20.0',
-        'langchain',
-        'moviepy',
-        'termcolor',
+        'edge-tts',
+        'moviepy==1.0.3',
         'progress',
         'questionary',
     ],

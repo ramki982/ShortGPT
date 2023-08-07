@@ -22,6 +22,7 @@ flagged/
 ShortGPT.egg-info
 dist
 build
-setup.py
+setup
 test.ipynb
 .venv/
+MANIFEST.in
