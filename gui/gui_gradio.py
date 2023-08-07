@@ -18,12 +18,12 @@ class ShortGptUI(AbstractBaseUI):
 
     def create_interface(self):
         '''Create Gradio interface'''
-        with gr.Blocks(css="footer {visibility: hidden}", title="ShortGPT Demo") as shortGptUI:
+        with gr.Blocks(css="footer {visibility: hidden}", title="GyanzAI Video Gen") as shortGptUI:
             with gr.Row(variant='compact'):
                 gr.HTML(GradioComponentsHTML.get_html_header())
 
             self.content_automation = GradioContentAutomationUI(shortGptUI).create_ui()
-            self.asset_library_ui = AssetLibrary().create_ui()
+            # self.asset_library_ui = AssetLibrary().create_ui()
             self.config_ui = ConfigUI().create_ui()
         return shortGptUI
 

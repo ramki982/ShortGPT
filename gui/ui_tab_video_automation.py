@@ -119,6 +119,7 @@ class VideoAutomationUI(AbstractComponentUI):
                 #self.state = Chatstate.ASK_DESCRIPTION
                 #bot_message = "Amazing 🔥 ! 📝Can you describe thoroughly the subject of your video?📝 I will next generate you a script based on that description"
             if self.state == Chatstate.ASK_DESCRIPTION:
+                print("Generating video script for: " + message)
                 self.script = self.generate_script(message, self.language.value)
                 self.state = Chatstate.ASK_SATISFACTION
                 bot_message = f"📝 Here is your generated script: \n\n--------------\n{self.script}\n\n・Are you satisfied with the script and ready to proceed with creating the video? Please respond with 'YES' or 'NO'. 👍👎"
@@ -186,7 +187,7 @@ class VideoAutomationUI(AbstractComponentUI):
         self.videoVisible = False
 
     def create_ui(self):
-        with gr.Row(visible=False) as self.video_automation:
+        with gr.Row(visible=True) as self.video_automation:
             with gr.Column():
                 self.chatbot = gr.Chatbot(self.initialize_conversation, height=365)
                 self.msg = gr.Textbox()
