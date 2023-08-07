@@ -4,9 +4,9 @@ class GradioComponentsHTML:
     def get_html_header() -> str:
         '''Create HTML for the header'''
         return '''
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1em; background-color: #004165;">
+            <div style="display: flex; justify-content: start; align-items: center; padding: 1em; background-color: #004165;">
                 <img src="https://www.anz.com.au/content/dam/anzconz/images/common/promopages/logo-promo-anz-small.png">
-                <h1 style="margin-left: 0px; font-size: 35px;">GyanzAI Video and Audio</h1>
+                <h1 style="margin-left: 15px; font-size: 35px; color: white">GyanzAI Video Gen</h1>
             </div>
         '''
 

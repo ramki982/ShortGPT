@@ -4,6 +4,7 @@ from shortGPT.config.api_db import ApiKeyManager
 
 
 def search_videos(query_string, orientation_landscape=True):
+    print("Searching pexels for " + query_string)
     url = "https://api.pexels.com/videos/search"
     headers = {
         "Authorization": ApiKeyManager.get_api_key("PEXELS")
