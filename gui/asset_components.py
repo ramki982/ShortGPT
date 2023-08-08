@@ -3,7 +3,7 @@ import platform
 import subprocess
 
 import gradio as gr
-
+import pandas as pd
 from shortGPT.api_utils.eleven_api import ElevenLabsAPI
 from shortGPT.config.api_db import ApiKeyManager
 from shortGPT.config.asset_db import AssetDatabase
@@ -16,6 +16,18 @@ class AssetComponentsUtils:
     instance_background_music_checkbox = None
     instance_voiceChoice = None
     instance_voiceChoiceTranslation = None
+
+    @classmethod
+    def getGeneratedVideos(cls):
+        dirPath = os.path.abspath("videos/")
+        dirList = os.listdir(dirPath)
+        videos = list(reversed(dirList))
+        data = []
+        for key in videos:
+            if (key.endswith(".mp4")):
+                print(key)
+                data.append({'name': key})
+        return pd.DataFrame(data)
 
     @classmethod
     def getBackgroundVideoChoices(cls):

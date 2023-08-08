@@ -5,6 +5,7 @@ from gui.ui_abstract_base import AbstractBaseUI
 from gui.ui_components_html import GradioComponentsHTML
 from gui.ui_tab_asset_library import AssetLibrary
 from gui.ui_tab_config import ConfigUI
+from gui.ui_tab_videolist import VideoListUI
 from shortGPT.utils.cli import CLI
 
 
@@ -18,13 +19,14 @@ class ShortGptUI(AbstractBaseUI):
 
     def create_interface(self):
         '''Create Gradio interface'''
-        with gr.Blocks(css="footer {visibility: hidden}", title="GYANZ.AI Video Gen") as shortGptUI:
+        with gr.Blocks(css="footer {visibility: hidden}", title="GYANZ.AI") as shortGptUI:
             with gr.Row(variant='compact'):
                 gr.HTML(GradioComponentsHTML.get_html_header())
 
             self.content_automation = GradioContentAutomationUI(shortGptUI).create_ui()
             # self.asset_library_ui = AssetLibrary().create_ui()
             self.config_ui = ConfigUI().create_ui()
+            self.videos_ui = VideoListUI(shortGptUI).create_ui()
         return shortGptUI
 
     def launch(self):

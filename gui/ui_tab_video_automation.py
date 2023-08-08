@@ -30,6 +30,8 @@ class Chatstate(Enum):
 class VideoAutomationUI(AbstractComponentUI):
     def __init__(self, shortGptUI: gr.Blocks):
         self.shortGptUI = shortGptUI
+        # current_url = self.shortGptUI.share_url+"/" if self.shortGptUI.share else self.shortGptUI.local_url
+        # print(self.shortGptUI.local_url)
         self.state = Chatstate.ASK_DESCRIPTION
         self.isVertical = True
         self.language = Language.ENGLISH
@@ -177,7 +179,7 @@ class VideoAutomationUI(AbstractComponentUI):
         self.script = ""
         self.video_html = ""
         self.videoVisible = False
-        return [[None, "Can you describe thoroughly the subject of your video? 📝 I will next generate you a script & video based on that description 🎥 🎬"]]
+        return [[None, "Can you describe thoroughly the subject of your video? I will next generate you a script 📝 & video based on that description 🎥 🎬"]]
 
     def reset_conversation(self):
         self.state = Chatstate.ASK_DESCRIPTION
