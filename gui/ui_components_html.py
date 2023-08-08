@@ -6,7 +6,7 @@ class GradioComponentsHTML:
         return '''
             <div style="display: flex; justify-content: start; align-items: center; padding: 1em; background-color: #004165;">
                 <img src="https://www.anz.com.au/content/dam/anzconz/images/common/promopages/logo-promo-anz-small.png">
-                <h1 style="margin-left: 15px; font-size: 35px; color: white">GyanzAI Video Gen</h1>
+                <h1 style="margin-left: 15px; font-size: 35px; color: white">GYANZ.AI</h1>
             </div>
         '''
 

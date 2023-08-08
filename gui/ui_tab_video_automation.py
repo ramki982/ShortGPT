@@ -177,7 +177,7 @@ class VideoAutomationUI(AbstractComponentUI):
         self.script = ""
         self.video_html = ""
         self.videoVisible = False
-        return [[None, "🤖 Welcome to GYANZ.AI! 🚀 I'm a python framework powered by ShortGPT aiming to simplify and automate your video editing tasks.\nLet's get started! 🎥🎬\n\n Amazing 🔥 ! 📝Can you describe thoroughly the subject of your video?📝 I will next generate you a script based on that description"]]
+        return [[None, "Can you describe thoroughly the subject of your video? 📝 I will next generate you a script & video based on that description 🎥 🎬"]]
 
     def reset_conversation(self):
         self.state = Chatstate.ASK_DESCRIPTION
